@@ -151,24 +151,24 @@
 
         <div class="field-group">
             <label for="q2">2. 如果拿掉作品的表面形式，你們真正想討論的是什麼？ <span class="req">* (必填)</span></label>
-            <textarea id="q2" name="q2" placeholder="探討的本質議題、情感或社會現象..." required></textarea>
+            <textarea id="q2" name="q2" required></textarea>
         </div>
 
         <div class="field-group">
             <label for="q3">3. 如果用一個詞／一個形狀／一個物件代表你們，你會選什麼？為什麼？ <span class="req">* (必填)</span></label>
-            <textarea id="q3" name="q3" placeholder="請填寫代表物並說明原因..." required></textarea>
+            <textarea id="q3" name="q3" required></textarea>
         </div>
 
         <div class="field-group">
             <label for="q4">4. 你們覺得自己的專題最有特色或最不一樣的地方是什麼？ <span class="req">* (必填)</span></label>
-            <textarea id="q4" name="q4" placeholder="例如材質運用、敘事切角、互動機制或表現手法..." required></textarea>
+            <textarea id="q4" name="q4" required></textarea>
         </div>
 
         <div class="section-header">PART 2 ｜ 屆性共識與精神</div>
 
         <div class="field-group">
             <label for="q5">5. 你覺得我們這一屆的作品有什麼共同特質或特色？ <span class="req">* (必填)</span></label>
-            <textarea id="q5" name="q5" placeholder="觀察全班作品的共同點或觀察到的氛圍..." required></textarea>
+            <textarea id="q5" name="q5" required></textarea>
         </div>
 
         <div class="field-group">
@@ -205,7 +205,7 @@
 </div>
 
 <script>
-    // 請將雙引號內的字串替換為你在 Apps Script 複製的網頁應用程式網址
+    // 請將雙引號內的字串替換為你在問卷試算表 Apps Script 複製的網頁應用程式網址
     const API_URL = "https://script.google.com/macros/s/AKfycbzxS72YD-D2xc12xZxXLoaFwDZwzzKwnXmMS9Iil93oQ3mHxzalFt4-vZRpRt-l4k4H/exec";
 
     function handleSubmit(event) {
@@ -214,7 +214,6 @@
         const btn = document.getElementById('submitBtn');
         const statusDiv = document.getElementById('statusMessage');
 
-        // 題目與名稱對照清單（用於嚴格檢查與提示）
         const fields = [
             { id: 'groupName', label: '組別名稱' },
             { id: 'q1', label: '第 1 題（核心理念）' },
@@ -229,7 +228,7 @@
             { id: 'q10', label: '第 10 題（對形象組的期待或建議）' }
         ];
 
-        // 逐題強制檢查是否為空白
+        // 逐題檢查防呆
         for (let field of fields) {
             const el = document.getElementById(field.id);
             if (!el || el.value.trim() === '') {
@@ -246,7 +245,6 @@
         btn.innerText = '資料寫入試算表中，請稍候...';
         statusDiv.style.display = 'none';
 
-        // 整理問卷參數
         const params = new URLSearchParams({
             groupName: groupName,
             q1: document.getElementById('q1').value.trim(),
