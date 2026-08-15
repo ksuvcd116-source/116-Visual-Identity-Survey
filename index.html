@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>崑山科技大學視覺傳達設計系 116畢業製作形象調查問卷</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { 
+            padding: 40px 20px; 
+            background: #ffffff; 
+            color: #000000; 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang TC", "Microsoft JhengHei", sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+        .container { 
+            max-width: 680px; 
+            margin: 0 auto; 
+            border: 2px solid #000000; 
+            padding: 36px 30px; 
+            text-align: left; 
+        }
+        .main-title { 
+            text-align: center; 
+            margin-bottom: 24px; 
+            border-bottom: 2px solid #000000; 
+            padding-bottom: 16px; 
+            line-height: 1.5; 
+        }
+        .main-title div {
+            font-size: 20px;
+            font-weight: 700;
+            color: #000000;
+        }
+        .notice-box { 
+            border: 1px solid #000000; 
+            padding: 16px; 
+            margin-bottom: 24px; 
+            font-size: 14px; 
+            line-height: 1.7; 
+        }
+        .notice-box p { 
+            margin-bottom: 8px; 
+        }
+        .notice-box .deadline {
+            font-weight: 700;
+            margin-top: 10px;
+            padding-top: 8px;
+            border-top: 1px dashed #000000;
+        }
+        .field-group { 
+            margin-bottom: 20px; 
+        }
+        .field-group.first-field {
+            margin-bottom: 28px;
+        }
+        label { 
+            display: block; 
+            font-weight: 700; 
+            font-size: 14px; 
+            margin-bottom: 8px; 
+            line-height: 1.4;
+        }
+        .req { color: #000000; margin-left: 2px; }
+        input[type="text"], textarea { 
+            width: 100%; 
+            border: 1px solid #000000; 
+            padding: 10px 12px; 
+            font-size: 14px; 
+            font-family: inherit;
+            outline: none; 
+            background: #ffffff;
+            border-radius: 0;
+        }
+        input[type="text"]:focus, textarea:focus { 
+            background: #fbfbfb; 
+        }
+        textarea { 
+            resize: vertical; 
+            min-height: 85px; 
+            line-height: 1.5; 
+        }
+        .section-header {
+            font-size: 14px;
+            font-weight: 700;
+            background: #000000;
+            color: #ffffff;
+            padding: 6px 10px;
+            margin: 24px 0 16px 0;
+            letter-spacing: 0.5px;
+        }
+        button { 
+            font-size: 15px; 
+            padding: 14px; 
+            width: 100%; 
+            background: #000000; 
+            color: #ffffff; 
+            border: 1px solid #000000; 
+            cursor: pointer; 
+            font-weight: bold; 
+            margin-top: 10px; 
+            transition: 0.2s; 
+        }
+        button:hover { 
+            background: #ffffff; 
+            color: #000000; 
+        }
+        button:disabled { 
+            background: #cccccc; 
+            border-color: #cccccc; 
+            cursor: not-allowed; 
+        }
+        #statusMessage { 
+            display: none; 
+            margin-top: 20px; 
+            padding: 15px; 
+            border: 1px solid #000000; 
+            text-align: center; 
+            font-weight: bold; 
+            font-size: 15px; 
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="main-title">
+        <div>崑山科技大學視覺傳達設計系</div>
+        <div>116畢業製作形象調查問卷</div>
+    </div>
+
+    <div class="notice-box">
+        <p>各組好，形象組目前正在進行 116 屆整體形象的規劃，想請各組協助填寫以下訪談問卷，了解各組專題及對本屆的想法，作為後續整體形象規劃之參考。</p>
+        <p>再麻煩各組協助填寫，謝謝。</p>
+        <div class="deadline">填寫截止時間：8/20 下午六點</div>
+    </div>
+
+    <form id="surveyForm" onsubmit="handleSubmit(event)">
+        
+        <div class="field-group first-field">
+            <label for="groupName">請輸入組別名稱 <span class="req">* (必填)</span></label>
+            <input type="text" id="groupName" name="groupName" placeholder="請輸入組別名稱" required autocomplete="off">
+        </div>
+
+        <div class="section-header">PART 1 ｜ 專題本質與核心</div>
+
+        <div class="field-group">
+            <label for="q1">1. 你們的核心理念是什麼？ <span class="req">* (必填)</span></label>
+            <textarea id="q1" name="q1" placeholder="請簡述作品的核心價值或想傳達的概念..." required></textarea>
+        </div>
+
+        <div class="field-group">
+            <label for="q2">2. 如果拿掉作品的表面形式，你們真正想討論的是什麼？ <span class="req">* (必填)</span></label>
+            <textarea id="q2" name="q2" placeholder="探討的本質議題、情感或社會現象..." required></textarea>
+        </div>
+
+        <div class="field-group">
+            <label for="q3">3. 如果用一個詞／一個形狀／一個物件代表你們，你會選什麼？為什麼？ <span class="req">* (必填)</span></label>
+            <textarea id="q3" name="q3" placeholder="請填寫代表物並說明原因..." required></textarea>
+        </div>
+
+        <div class="field-group">
+            <label for="q4">4. 你們覺得自己的專題最有特色或最不一樣的地方是什麼？ <span class="req">* (必填)</span></label>
+            <textarea id="q4" name="q4" placeholder="例如材質運用、敘事切角、互動機制或表現手法..." required></textarea>
+        </div>
+
+        <div class="section-header">PART 2 ｜ 屆性共識與精神</div>
+
+        <div class="field-group">
+            <label for="q5">5. 你覺得我們這一屆的作品有什麼共同特質或特色？ <span class="req">* (必填)</span></label>
+            <textarea id="q5" name="q5" placeholder="觀察全班作品的共同點或觀察到的氛圍..." required></textarea>
+        </div>
+
+        <div class="field-group">
+            <label for="q6">6. 如果「形容」不是文字描述，而是一個東西、材料或動作，你覺得會是什麼？為什麼？ <span class="req">* (必填)</span></label>
+            <textarea id="q6" name="q6" placeholder="請填寫具體的物件、材質或動作並說明原因..." required></textarea>
+        </div>
+
+        <div class="field-group">
+            <label for="q7">7. 你覺得我們這屆的精神是什麼？ <span class="req">* (必填)</span></label>
+            <textarea id="q7" name="q7" placeholder="例如一種態度、對抗的事物或追求的方向..." required></textarea>
+        </div>
+
+        <div class="field-group">
+            <label for="q8">8. 如果用一個物件代表我們這一屆，你會選什麼？為什麼？ <span class="req">* (必填)</span></label>
+            <textarea id="q8" name="q8" placeholder="請填寫物件與象徵意義..." required></textarea>
+        </div>
+
+        <div class="field-group">
+            <label for="q9">9. 你覺得什麼樣的視覺風格最符合我們這一屆？為什麼？ <span class="req">* (必填)</span></label>
+            <textarea id="q9" name="q9" placeholder="色彩、材質質感、排版張力、視覺調性等想法..." required></textarea>
+        </div>
+
+        <div class="section-header">PART 3 ｜ 建議與回饋</div>
+
+        <div class="field-group">
+            <label for="q10">10. 對形象組目前的規劃，你有什麼期待或建議？ <span class="req">* (必填)</span></label>
+            <textarea id="q10" name="q10" placeholder="任何對展場、視覺宣傳、主視覺的期待或建議..." required></textarea>
+        </div>
+
+        <button type="submit" id="submitBtn">送出問卷資料</button>
+    </form>
+
+    <div id="statusMessage"></div>
+</div>
+
+<script>
+    // 請將雙引號內的字串替換為你在 Apps Script 複製的網頁應用程式網址
+    const API_URL = "https://script.google.com/macros/s/AKfycbzxS72YD-D2xc12xZxXLoaFwDZwzzKwnXmMS9Iil93oQ3mHxzalFt4-vZRpRt-l4k4H/exec";
+
+    function handleSubmit(event) {
+        event.preventDefault();
+        
+        const btn = document.getElementById('submitBtn');
+        const statusDiv = document.getElementById('statusMessage');
+
+        // 題目與名稱對照清單（用於嚴格檢查與提示）
+        const fields = [
+            { id: 'groupName', label: '組別名稱' },
+            { id: 'q1', label: '第 1 題（核心理念）' },
+            { id: 'q2', label: '第 2 題（表面形式下的本質）' },
+            { id: 'q3', label: '第 3 題（代表詞/形狀/物件與原因）' },
+            { id: 'q4', label: '第 4 題（專題特色與差異）' },
+            { id: 'q5', label: '第 5 題（本屆共同特質）' },
+            { id: 'q6', label: '第 6 題（非文字形容）' },
+            { id: 'q7', label: '第 7 題（本屆精神）' },
+            { id: 'q8', label: '第 8 題（代表本屆的物件與原因）' },
+            { id: 'q9', label: '第 9 題（最符合本屆的視覺風格）' },
+            { id: 'q10', label: '第 10 題（對形象組的期待或建議）' }
+        ];
+
+        // 逐題強制檢查是否為空白
+        for (let field of fields) {
+            const el = document.getElementById(field.id);
+            if (!el || el.value.trim() === '') {
+                alert(`請填寫「${field.label}」，每一題皆為必填項目！`);
+                el.focus();
+                el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                return;
+            }
+        }
+
+        const groupName = document.getElementById('groupName').value.trim();
+        
+        btn.disabled = true;
+        btn.innerText = '資料寫入試算表中，請稍候...';
+        statusDiv.style.display = 'none';
+
+        // 整理問卷參數
+        const params = new URLSearchParams({
+            groupName: groupName,
+            q1: document.getElementById('q1').value.trim(),
+            q2: document.getElementById('q2').value.trim(),
+            q3: document.getElementById('q3').value.trim(),
+            q4: document.getElementById('q4').value.trim(),
+            q5: document.getElementById('q5').value.trim(),
+            q6: document.getElementById('q6').value.trim(),
+            q7: document.getElementById('q7').value.trim(),
+            q8: document.getElementById('q8').value.trim(),
+            q9: document.getElementById('q9').value.trim(),
+            q10: document.getElementById('q10').value.trim()
+        });
+
+        const script = document.createElement('script');
+        const callbackName = 'cb_' + Date.now();
+
+        window[callbackName] = function(res) {
+            delete window[callbackName];
+            if (document.body.contains(script)) document.body.removeChild(script);
+            btn.disabled = false;
+            btn.innerText = '送出問卷資料';
+
+            if (res.status === 'success') {
+                statusDiv.style.display = 'block';
+                statusDiv.innerHTML = `【${groupName}】問卷所有題目已完整填寫並成功送出，感謝協助！`;
+                document.getElementById('surveyForm').reset();
+                window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+            } else {
+                statusDiv.style.display = 'block';
+                statusDiv.innerHTML = `⚠️ 送出失敗：${res.message}`;
+            }
+        };
+
+        script.src = `${API_URL}?${params.toString()}&callback=${callbackName}`;
+        script.onerror = function() {
+            btn.disabled = false;
+            btn.innerText = '送出問卷資料';
+            statusDiv.style.display = 'block';
+            statusDiv.innerHTML = '⚠️ 連線失敗！請確認 Google 部署權限已設定為「所有人」。';
+        };
+        document.body.appendChild(script);
+    }
+</script>
+
+</body>
+</html>
