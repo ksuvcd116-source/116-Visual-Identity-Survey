@@ -44,7 +44,6 @@
             font-size: 17px;
             margin-bottom: 10px;
         }
-        /* 形容說明與問卷說明之間的虛線區隔 */
         .concept-divider {
             border-top: 1px dashed #000000;
             margin: 16px 0;
@@ -142,7 +141,7 @@
             font-size: 14px;
         }
 
-        button { 
+        button.btn-submit { 
             font-size: 16px; 
             padding: 16px; 
             width: 100%; 
@@ -154,11 +153,11 @@
             margin-top: 24px; 
             transition: 0.2s; 
         }
-        button:hover { 
+        button.btn-submit:hover { 
             background: #ffffff; 
             color: #000000; 
         }
-        button:disabled { 
+        button.btn-submit:disabled { 
             background: #cccccc; 
             border-color: #cccccc; 
             cursor: not-allowed; 
@@ -171,14 +170,62 @@
             line-height: 1.8;
             color: #333333;
         }
-        #statusMessage { 
-            display: none; 
-            margin-top: 24px; 
-            padding: 18px; 
-            border: 1px solid #000000; 
-            text-align: center; 
-            font-weight: bold; 
-            font-size: 16px; 
+
+        /* 彈出視窗（Modal）樣式 */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .modal-box {
+            background: #ffffff;
+            border: 2px solid #000000;
+            padding: 36px 30px;
+            max-width: 480px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            animation: modalFadeIn 0.25s ease-out;
+        }
+        @keyframes modalFadeIn {
+            from { opacity: 0; transform: translateY(-15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .modal-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 14px;
+            border-bottom: 2px solid #000000;
+            padding-bottom: 10px;
+        }
+        .modal-content {
+            font-size: 15px;
+            line-height: 1.8;
+            margin-bottom: 24px;
+            color: #111111;
+        }
+        .modal-btn {
+            background: #000000;
+            color: #ffffff;
+            border: 1px solid #000000;
+            padding: 12px 32px;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+            min-width: 120px;
+        }
+        .modal-btn:hover {
+            background: #ffffff;
+            color: #000000;
         }
     </style>
 </head>
@@ -195,7 +242,6 @@
         <div class="concept-title">116 形象｜形容</div>
         <p>「形容」不只是描述事物，而是透過創作，將思考、經驗與觀點逐漸轉化為可被感知與理解的形式。「形」代表形式與表達，「容」代表承載與包容，讓不同的想法在交流與轉化中持續成形。</p>
         
-        <!-- 形容說明與問卷說明之間的虛線 -->
         <div class="concept-divider"></div>
         
         <p>此次問卷希望透過各組的想法與觀點，了解 116 屆的共同特質，作為後續整體形象規劃的參考。也希望透過這次填寫，讓各組重新整理自己的專題，並從不同角度思考作品與 116 之間的連結。</p>
@@ -314,7 +360,7 @@
             <textarea id="q10" name="q10" placeholder="可以針對展場設計、行銷宣傳、主視覺、整體形象等面向，提出期待與建議..."></textarea>
         </div>
 
-        <button type="submit" id="submitBtn">送出問卷資料</button>
+        <button type="submit" id="submitBtn" class="btn-submit">送出問卷資料</button>
     </form>
 
     <!-- 結尾感謝語 -->
@@ -323,8 +369,15 @@
         希望透過這次交流，不只是幫助形象組建立 116 屆的整體方向，也能讓各組重新整理自己的專題，從不同角度看見作品與 116 之間的連結。<br>
         感謝大家的配合與協助。
     </div>
+</div>
 
-    <div id="statusMessage"></div>
+<!-- 彈出視窗（Modal） -->
+<div id="resultModal" class="modal-overlay">
+    <div class="modal-box">
+        <div id="modalTitle" class="modal-title">問卷提交成功</div>
+        <div id="modalMessage" class="modal-content"></div>
+        <button type="button" class="modal-btn" onclick="closeModal()">確定</button>
+    </div>
 </div>
 
 <script>
@@ -348,10 +401,6 @@
             inputs.forEach(el => el.disabled = true);
             btn.disabled = true;
             btn.innerText = "填寫時間已截止";
-            
-            const statusDiv = document.getElementById("statusMessage");
-            statusDiv.style.display = "block";
-            statusDiv.innerHTML = "⚠️ 本問卷已於 2026/8/19 下午 6:00 截止填寫。";
             return true;
         }
         return false;
@@ -370,16 +419,25 @@
         });
     }
 
+    function showModal(title, msg, isSuccess) {
+        document.getElementById('modalTitle').innerText = title;
+        document.getElementById('modalMessage').innerHTML = msg;
+        document.getElementById('resultModal').style.display = 'flex';
+    }
+
+    function closeModal() {
+        document.getElementById('resultModal').style.display = 'none';
+    }
+
     function handleSubmit(event) {
         event.preventDefault();
         
         if (checkDeadline()) {
-            alert("填寫時間已截止，無法送出問卷！");
+            showModal("填寫截止", "⚠️ 本問卷已於 2026/8/19 下午 6:00 截止填寫，無法送出！", false);
             return;
         }
 
         const btn = document.getElementById('submitBtn');
-        const statusDiv = document.getElementById('statusMessage');
 
         // 文字題必填檢查
         const textFields = [
@@ -444,7 +502,6 @@
         
         btn.disabled = true;
         btn.innerText = '資料寫入試算表中，請稍候...';
-        statusDiv.style.display = 'none';
 
         const params = new URLSearchParams({
             groupName: groupName,
@@ -470,13 +527,15 @@
             btn.innerText = '送出問卷資料';
 
             if (res.status === 'success') {
-                statusDiv.style.display = 'block';
-                statusDiv.innerHTML = `【${groupName}】問卷所有題目已完整填寫並成功送出，感謝協助！`;
+                showModal(
+                    "問卷填寫成功", 
+                    `【<b>${groupName}</b>】問卷資料已順利寫入試算表！<br><br>感謝你們提供寶貴的想法與觀點。`, 
+                    true
+                );
                 document.getElementById('surveyForm').reset();
-                window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+                window.scrollTo({ top: 0, behavior: 'smooth' });
             } else {
-                statusDiv.style.display = 'block';
-                statusDiv.innerHTML = `⚠️ 送出失敗：${res.message}`;
+                showModal("送出失敗", `⚠️ 資料寫入時發生錯誤：${res.message}`, false);
             }
         };
 
@@ -484,8 +543,7 @@
         script.onerror = function() {
             btn.disabled = false;
             btn.innerText = '送出問卷資料';
-            statusDiv.style.display = 'block';
-            statusDiv.innerHTML = '⚠️ 連線失敗！請確認 Google 部署權限已設定為「所有人」。';
+            showModal("連線失敗", "⚠️ 連線失敗！請確認 Google 部署權限是否已設定為「所有人」。", false);
         };
         document.body.appendChild(script);
     }
